@@ -68,13 +68,14 @@ namespace LabaNomer2
             Console.WriteLine($"Number of Engines: {Engines.Count}");
             foreach (var engine in Engines)
             {
-                Console.WriteLine($"Engine ID: {engine.Id}, Max Speed: {engine.MaxSpeed}, Max Load: {engine.MaxLoad}");
+                Console.WriteLine($"ID рушію: {engine.Id}, Max Speed: {engine.MaxSpeed}, Max Load: {engine.MaxLoad}");
             }
             Console.WriteLine($"Кількість вагонів: {Carriages.Count}");
             Console.WriteLine("Інформація про вагони:");
+            double totalLoad = 0;
             foreach (var carriage in Carriages)
             {
-                Console.WriteLine($"ID: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
+                Console.WriteLine($"ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
                 if (carriage is PassengerCarriage passengerCarriage)
                 {
                     Console.WriteLine($"Кількість пасажирів: {passengerCarriage.Passengers}");
@@ -82,8 +83,17 @@ namespace LabaNomer2
                 else if (carriage is FreightCarriage freightCarriage)
                 {
                     Console.WriteLine($"Вантаж: {freightCarriage.Load}");
+                    totalLoad += freightCarriage.Load;
                 }
             }
+            double totalMaxLoad = Engines.Sum(e => e.MaxLoad);
+            double speed = totalMaxLoad > 0 ? totalLoad / totalMaxLoad * 120 : 0;
+            double time = speed > 0 ? distance / speed : 0;
+            Console.WriteLine($"Відстань подорожі: {distance} км");
+            Console.WriteLine($"Час подорожі: {time} годин");
+            Console.WriteLine($"Швидкість потягу: {speed} км/год");
+            Console.WriteLine($"Вага вантажу: {totalLoad} тон");
         }
     }
 }
+
