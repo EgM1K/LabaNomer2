@@ -15,7 +15,6 @@
             for (int i = 0; i < engineCount; i++)
             {
                 string engineId = engineCount == 1 ? "0" : $"R{i + 1}";
-                engines.Add(new Engine(engineId, 120, 800));
             }
 
             Train train = new Train(trainName, engines, maxWeight);
