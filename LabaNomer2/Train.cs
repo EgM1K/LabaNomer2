@@ -87,6 +87,15 @@ namespace LabaNomer2
                 }
             }
         }
+        public JourneyInfo GetJourneyInfo(double distance)
+        {
+            double totalLoad = Carriages.Sum(c => c.LoadCapacity);
+            double totalMaxLoad = Engines.Sum(e => e.MaxLoad);
+            double speed = totalMaxLoad > 0 ? totalLoad / totalMaxLoad * 120 : 0;
+            double time = speed > 0 ? distance / speed : 0;
+
+            return new JourneyInfo(distance, time, speed, totalLoad);
+        }
     }
 }
 
