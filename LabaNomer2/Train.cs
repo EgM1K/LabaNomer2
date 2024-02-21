@@ -14,11 +14,12 @@ namespace LabaNomer2
         public string Name { get; set; }
         public double MaxWeight { get; set; }
         public List<Carriage> Carriages { get; set; }
+        public List<Engine> Engines { get; set; }
 
-        public Train(string id, double maxWeight)
+        public Train(string id, List<Engine> engines, double maxWeight)
         {
             Id = id;
-            Name = "DR1"; // Фіксована назва рушія
+            Engines = engines;
             MaxWeight = maxWeight;
             Carriages = new List<Carriage>();
         }
@@ -62,8 +63,13 @@ namespace LabaNomer2
         }
         public void PrintTrainInfo()
         {
-            Console.WriteLine($"Назва потягу: {Name}");
-            Console.WriteLine($"Максимальна вага: {MaxWeight}");
+            Console.WriteLine($"Train ID: {Id}");
+            Console.WriteLine($"Max Weight: {MaxWeight}");
+            Console.WriteLine($"Number of Engines: {Engines.Count}");
+            foreach (var engine in Engines)
+            {
+                Console.WriteLine($"Engine ID: {engine.Id}, Max Speed: {engine.MaxSpeed}, Max Load: {engine.MaxLoad}");
+            }
             Console.WriteLine($"Кількість вагонів: {Carriages.Count}");
             Console.WriteLine("Інформація про вагони:");
             foreach (var carriage in Carriages)

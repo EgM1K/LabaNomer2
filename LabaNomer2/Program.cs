@@ -6,9 +6,19 @@
         {
             Console.WriteLine("Введіть назву потягу:");
             string trainName = Console.ReadLine();
-            double maxWeight = 800; 
+            double maxWeight = 800;
             Console.WriteLine($"Максимальна вага потягу: {maxWeight} тон");
-            Train train = new Train(trainName, maxWeight);
+
+            Console.WriteLine("Введіть кількість рушіїв:");
+            int engineCount = Convert.ToInt32(Console.ReadLine());
+            List<Engine> engines = new List<Engine>();
+            for (int i = 0; i < engineCount; i++)
+            {
+                string engineId = engineCount == 1 ? "0" : $"R{i + 1}";
+                engines.Add(new Engine(engineId, 120, 800));
+            }
+
+            Train train = new Train(trainName, engines, maxWeight);
 
             Console.WriteLine("Виберіть тип вагонів (1 - пасажирський, 2 - вантажний):");
             int type = Convert.ToInt32(Console.ReadLine());
@@ -39,7 +49,6 @@
             double distance = Convert.ToDouble(Console.ReadLine());
 
             Console.Clear();
-            train.PrintTrainInfo();
 
             Console.WriteLine("Моделювання подорожі...");
             train.SimulateJourney(distance);

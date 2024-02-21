@@ -8,15 +8,27 @@ namespace LabaNomer2
 {
     public class Engine
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public double MaxSpeed { get; set; }
         public double MaxLoad { get; set; }
 
-        public Engine(string name, double maxSpeed, double maxLoad)
+        public Engine(string id, double maxSpeed, double maxLoad)
         {
-            Name = name;
+            Id = id;
             MaxSpeed = maxSpeed;
             MaxLoad = maxLoad;
+
+        }
+
+        public double CalculateSpeed(double load)
+        {
+            double maxSpeed = 120;
+
+            double minSpeed = 60;
+
+            double speed = maxSpeed - ((load / MaxLoad) * (maxSpeed - minSpeed));
+
+            return speed;
         }
     }
 }
