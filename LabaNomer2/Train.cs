@@ -9,13 +9,16 @@ namespace LabaNomer2
 {
     public class Train : ITrainDR1
     {
+        public Engine Engine { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public double MaxWeight { get; set; }
         public List<Carriage> Carriages { get; set; }
 
-        public Train(string name, double maxWeight)
+        public Train(string id, double maxWeight)
         {
-            Name = name;
+            Id = id;
+            Name = "DR1"; // Фіксована назва рушія
             MaxWeight = maxWeight;
             Carriages = new List<Carriage>();
         }
