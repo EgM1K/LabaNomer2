@@ -86,13 +86,6 @@ namespace LabaNomer2
                     totalLoad += freightCarriage.Load;
                 }
             }
-            double totalMaxLoad = Engines.Sum(e => e.MaxLoad);
-            double speed = totalMaxLoad > 0 ? totalLoad / totalMaxLoad * 120 : 0;
-            double time = speed > 0 ? distance / speed : 0;
-            Console.WriteLine($"Відстань подорожі: {distance} км");
-            Console.WriteLine($"Час подорожі: {time} годин");
-            Console.WriteLine($"Швидкість потягу: {speed} км/год");
-            Console.WriteLine($"Вага вантажу: {totalLoad} тон");
         }
     }
 }
