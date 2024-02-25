@@ -15,6 +15,10 @@ namespace LabaNomer2
         public double MaxWeight { get; set; }
         public List<Carriage> Carriages { get; set; }
         public List<Engine> Engines { get; set; }
+        public void AddCarriage(Carriage carriage)
+        {
+            Carriages.Add(carriage);
+        }
 
         public Train(string id, List<Engine> engines, double maxWeight)
         {
@@ -24,16 +28,42 @@ namespace LabaNomer2
             Carriages = new List<Carriage>();
         }
 
-        public void AddCarriage(Carriage carriage)
+        public void AddCarriages(int carriageCount, int type)
         {
-            double currentWeight = Carriages.Sum(c => c.Weight + c.LoadCapacity);
-            if (currentWeight + carriage.Weight + carriage.LoadCapacity > MaxWeight)
+            for (int i = 1; i <= carriageCount; i++)
             {
-                Console.WriteLine("Не можна додати вагон, оскільки це перевищить максимальну вагу потягу.");
-            }
-            else
-            {
-                Carriages.Add(carriage);
+                if (type == 1)
+                {
+                    Console.WriteLine("Введіть кількість пасажирів:");
+                    int passengers = Convert.ToInt32(Console.ReadLine());
+                    PassengerCarriage passengerCarriage = new PassengerCarriage(i.ToString(), 25, 10, 100, passengers);
+                    AddCarriage(passengerCarriage);
+                }
+                else if (type == 2)
+                {
+                    Console.WriteLine("Введіть вагу вантажу:");
+                    double load = Convert.ToDouble(Console.ReadLine());
+                    FreightCarriage freightCarriage = new FreightCarriage(i.ToString(), 25, 10, load);
+                    AddCarriage(freightCarriage);
+                }
+                else if (type == 3)
+                {
+                    Console.WriteLine("Введіть кількість столів:");
+                    int tablesCount = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Чи є кухня? (y/n)");
+                    bool hasKitchen = Console.ReadLine().ToLower() == "y";
+                    DiningCarriage diningCarriage = new DiningCarriage(i.ToString(), "Dining", 25, 10, 100, tablesCount, hasKitchen);
+                    AddCarriage(diningCarriage);
+                }
+                else if (type == 4)
+                {
+                    Console.WriteLine("Введіть кількість купе:");
+                    int compartmentsCount = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Чи є душ? (y/n)");
+                    bool hasShowers = Console.ReadLine().ToLower() == "y";
+                    SleepingCarriage sleepingCarriage = new SleepingCarriage(i.ToString(), "Sleeping", 25, 10, 100, compartmentsCount, hasShowers);
+                    AddCarriage(sleepingCarriage);
+                }
             }
         }
         public void SimulateJourney(double distance)
@@ -63,7 +93,7 @@ namespace LabaNomer2
         }
         public void PrintTrainInfo()
         {
-            Console.WriteLine($"Train ID: {Id}");
+            Console.WriteLine($"Train Name: {Name}");
             Console.WriteLine($"Max Weight: {MaxWeight}");
             Console.WriteLine($"Number of Engines: {Engines.Count}");
             foreach (var engine in Engines)

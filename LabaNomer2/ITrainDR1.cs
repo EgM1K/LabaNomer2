@@ -15,5 +15,6 @@ namespace LabaNomer2
         void AddCarriage(Carriage carriage);
         void SimulateJourney(double distance);
         void PrintTrainInfo();
+       
     }
 }
