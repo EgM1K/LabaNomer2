@@ -17,7 +17,7 @@ namespace LabaNomer2
             for (int i = 0; i < engineCount; i++)
             {
                 string engineId = $"R{i}";
-                engines.Add(new Engine( 120, 800));
+                engines.Add(new Engine( 120, 800, 25));
             }
 
             Train train = new Train(trainName, engines, maxWeight);

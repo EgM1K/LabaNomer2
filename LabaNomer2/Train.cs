@@ -37,7 +37,7 @@ namespace LabaNomer2
                 {
                     Console.WriteLine("Введіть кількість пасажирів:");
                     int passengers = Convert.ToInt32(Console.ReadLine());
-                    PassengerCarriage passengerCarriage = new PassengerCarriage(i.ToString(), 25, 10, 100, passengers);
+                    PassengerCarriage passengerCarriage = new PassengerCarriage(i.ToString(), 25, passengers);
                     AddCarriage(passengerCarriage);
                 }
                 else if (type == 2)
@@ -49,7 +49,7 @@ namespace LabaNomer2
                     }
                     Console.WriteLine("Введіть вагу вантажу:");
                     double load = Convert.ToDouble(Console.ReadLine());
-                    FreightCarriage freightCarriage = new FreightCarriage(i.ToString(), 25, 10, load);
+                    FreightCarriage freightCarriage = new FreightCarriage(i.ToString(), load);
                     AddCarriage(freightCarriage);
                     MaxWeight += freightCarriage.Weight;
                 }
@@ -59,7 +59,7 @@ namespace LabaNomer2
                     int tablesCount = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Чи є кухня? (y/n)");
                     bool hasKitchen = Console.ReadLine().ToLower() == "y";
-                    DiningCarriage diningCarriage = new DiningCarriage(i.ToString(), "Dining", 25, 10, 100, tablesCount, hasKitchen);
+                    DiningCarriage diningCarriage = new DiningCarriage(i.ToString(), "Dining", 25, tablesCount, hasKitchen);
                     AddCarriage(diningCarriage);
                 }
                 else if (type == 4)
@@ -68,12 +68,12 @@ namespace LabaNomer2
                     int compartmentsCount = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Чи є душ? (y/n)");
                     bool hasShowers = Console.ReadLine().ToLower() == "y";
-                    SleepingCarriage sleepingCarriage = new SleepingCarriage(i.ToString(), "Sleeping", 25, 10, 100, compartmentsCount, hasShowers);
+                    SleepingCarriage sleepingCarriage = new SleepingCarriage(i.ToString(), "Sleeping", 25, compartmentsCount, hasShowers);
                     AddCarriage(sleepingCarriage);
                 }
             }
         }
-            public void SimulateJourney(double distance)
+        public void SimulateJourney(double distance)
             {
                 Random random = new Random();
                 double accidentChance = random.NextDouble();
@@ -121,9 +121,10 @@ namespace LabaNomer2
                     }
                     else if (carriage is FreightCarriage freightCarriage)
                     {
-                        Console.WriteLine($"Вантаж: {freightCarriage.Load}");
-                        totalLoad += freightCarriage.Load;
-                    }
+                    Console.WriteLine($"Вага вантажу: {freightCarriage.Load}");
+                    totalLoad += freightCarriage.Load + freightCarriage.Weight;
+                    totalLength += freightCarriage.Length;
+                }
                     else if (carriage is DiningCarriage diningCarriage)
                     {
                         Console.WriteLine($"Вантаж: {diningCarriage.LoadFood(diningCarriage.DiningSeats)}");
@@ -131,7 +132,6 @@ namespace LabaNomer2
                     }
                 }
                 Console.WriteLine($"Загальна довжина потягу: {totalLength} метрів");
-                Console.WriteLine($"Загальна вага вантажу: {totalLoad} тон");
             }
             public JourneyInfo GetJourneyInfo(double distance)
             {

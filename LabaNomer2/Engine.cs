@@ -11,11 +11,13 @@ namespace LabaNomer2
         public string Id { get; set; } = "DR1";
         public double MaxSpeed { get; set; }
         public double MaxLoad { get; set; }
+        public double Length { get; set; }
 
-        public Engine(double maxSpeed, double maxLoad)
+        public Engine(double maxSpeed, double maxLoad, double length)
         {
             MaxSpeed = maxSpeed;
-            MaxLoad = maxLoad;
+            MaxLoad = 800;
+            Length = 25;
         }
 
         public double CalculateSpeed(double load)

@@ -11,7 +11,7 @@ namespace LabaNomer2
         public double Load { get; set; }
 
         public FreightCarriage(string id, double loadCapacity)
-            : base(id, "Freight", 25, 25, loadCapacity)
+            : base(id, "Freight", loadCapacity)
         {
             Load = 0;
         }
@@ -20,13 +20,13 @@ namespace LabaNomer2
         {
             Console.WriteLine("Введіть вагу вантажу:");
             double cargoWeight = Convert.ToDouble(Console.ReadLine());
-            if (cargoWeight > LoadCapacity)
+            if (cargoWeight + Weight > LoadCapacity)
             {
                 Console.WriteLine("Вантаж не може перевищувати максимальну вантажопідйомність вагона.");
             }
             else
             {
-                Load = cargoWeight;
+                Load = cargoWeight + Weight;
             }
         }
     }

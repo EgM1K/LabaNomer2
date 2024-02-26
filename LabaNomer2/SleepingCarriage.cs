@@ -14,7 +14,7 @@ namespace LabaNomer2
         public int CurrentPassengers { get; set; }
 
         public SleepingCarriage(string id, string type, double loadCapacity, int compartmentsCount, bool hasShowers)
-            : base(id, type, 25, 25, loadCapacity)
+            : base(id, type, loadCapacity)
         {
             CompartmentsCount = compartmentsCount;
             HasShowers = hasShowers;
