@@ -11,8 +11,8 @@ namespace LabaNomer2
         public int SeatsCount { get; set; }
         public int Passengers { get; set; }
 
-        public PassengerCarriage(string id, double weight, double length, double loadCapacity, int seatsCount)
-            : base(id, "Passenger", weight, length, loadCapacity)
+        public PassengerCarriage(string id, int seatsCount)
+            : base(id, "Passenger", 25, 25)
         {
             SeatsCount = seatsCount;
         }

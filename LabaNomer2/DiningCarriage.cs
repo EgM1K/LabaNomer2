@@ -13,8 +13,8 @@ namespace LabaNomer2
         public int StaffCount { get; private set; }
         public int DiningSeats { get; private set; }
 
-        public DiningCarriage(string id, string type, double weight, double length, double loadCapacity, int tablesCount, bool hasKitchen)
-            : base(id, type, weight, length, loadCapacity)
+        public DiningCarriage(string id, string type, double loadCapacity, int tablesCount, bool hasKitchen)
+            : base(id, type, 25, 25, loadCapacity)
         {
             TablesCount = tablesCount;
             HasKitchen = hasKitchen;

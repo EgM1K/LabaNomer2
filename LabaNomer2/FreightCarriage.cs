@@ -10,8 +10,8 @@ namespace LabaNomer2
     {
         public double Load { get; set; }
 
-        public FreightCarriage(string id, double weight, double length, double loadCapacity)
-            : base(id, "Freight", weight, length, loadCapacity)
+        public FreightCarriage(string id, double loadCapacity)
+            : base(id, "Freight", 25, 25, loadCapacity)
         {
             Load = 0;
         }
