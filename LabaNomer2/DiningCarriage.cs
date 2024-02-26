@@ -22,7 +22,6 @@ namespace LabaNomer2
             DiningSeats = 40;
         }
 
-        // Метод для завантаження продуктів
         public double LoadFood(int passengers)
         {
             double foodPerPassenger = 1.0;

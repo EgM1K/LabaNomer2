@@ -121,8 +121,12 @@ namespace LabaNomer2
         {
             double totalLoad = Carriages.Sum(c => c.LoadCapacity);
             double totalMaxLoad = Engines.Sum(e => e.MaxLoad);
-            double speed = totalMaxLoad > 0 ? totalLoad / totalMaxLoad * 120 : 0;
-            double time = speed > 0 ? distance / speed : 0;
+
+            // Використовуємо метод CalculateSpeed з класу Engine
+            double speed = Engines.First().CalculateSpeed(totalLoad);
+
+            // Використовуємо метод CalculateTime з класу Engine
+            double time = Engines.First().CalculateTime(distance);
 
             return new JourneyInfo(distance, time, speed, totalLoad);
         }

@@ -22,7 +22,6 @@ namespace LabaNomer2
             CurrentPassengers = 0;
         }
 
-        // Метод для додавання пасажирів
         public bool AddPassengers(int passengers)
         {
             if (CurrentPassengers + passengers > MaxPassengers)
