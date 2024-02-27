@@ -24,7 +24,7 @@ namespace LabaNomer2
         {
             Id = id;
             Engines = engines;
-            MaxWeight = maxWeight;
+            MaxWeight = 800;
             Carriages = new List<Carriage>();
         }
 
@@ -49,6 +49,11 @@ namespace LabaNomer2
                     }
                     Console.WriteLine("Введіть вагу вантажу:");
                     double load = Convert.ToDouble(Console.ReadLine());
+                    if (load > 100)
+                    {
+                        Console.WriteLine("Вага вантажу не може перевищувати 100 тон.");
+                        return;
+                    }
                     FreightCarriage freightCarriage = new FreightCarriage(i.ToString(), load);
                     AddCarriage(freightCarriage);
                     MaxWeight += freightCarriage.Weight;
@@ -111,27 +116,26 @@ namespace LabaNomer2
                 Console.WriteLine("Інформація про вагони:");
                 double totalLoad = 0;
                 double totalLength = 0;
-                foreach (var carriage in Carriages)
+            foreach (var carriage in Carriages)
+            {
+                Console.WriteLine($"ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
+                totalLength += carriage.Length;
+                if (carriage is PassengerCarriage passengerCarriage)
                 {
-                    Console.WriteLine($"ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
-                    totalLength += carriage.Length;
-                    if (carriage is PassengerCarriage passengerCarriage)
-                    {
-                        Console.WriteLine($"Кількість пасажирів: {passengerCarriage.Passengers}");
-                    }
-                    else if (carriage is FreightCarriage freightCarriage)
-                    {
-                    Console.WriteLine($"Вага вантажу: {freightCarriage.Load}");
+                    Console.WriteLine($"Кількість пасажирів: {passengerCarriage.Passengers}");
+                }
+                else if (carriage is FreightCarriage freightCarriage)
+                {
+                    Console.WriteLine($"Вага вантажу: + { freightCarriage.Load}");
                     totalLoad += freightCarriage.Load + freightCarriage.Weight;
-                    totalLength += freightCarriage.Length;
                 }
-                    else if (carriage is DiningCarriage diningCarriage)
-                    {
-                        Console.WriteLine($"Вантаж: {diningCarriage.LoadFood(diningCarriage.DiningSeats)}");
-                        totalLoad += diningCarriage.LoadFood(diningCarriage.DiningSeats);
-                    }
+                else if (carriage is DiningCarriage diningCarriage)
+                {
+                    Console.WriteLine($"Вантаж: {diningCarriage.LoadFood(diningCarriage.DiningSeats)}");
+                    totalLoad += diningCarriage.LoadFood(diningCarriage.DiningSeats);
                 }
-                Console.WriteLine($"Загальна довжина потягу: {totalLength} метрів");
+            }
+            Console.WriteLine($"Загальна довжина потягу: {totalLength} метрів");
             }
             public JourneyInfo GetJourneyInfo(double distance)
             {
