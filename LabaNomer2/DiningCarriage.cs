@@ -24,7 +24,7 @@ namespace LabaNomer2
 
         public double LoadFood(int passengers)
         {
-            double foodPerPassenger = 1.0;
+            double foodPerPassenger = 0.5;
             return passengers * foodPerPassenger;
         }
     }

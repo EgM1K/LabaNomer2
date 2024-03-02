@@ -14,7 +14,7 @@ namespace LabaNomer2
         public PassengerCarriage(string id, int seatsCount, double loadCapacity)
             : base(id, "Passenger", loadCapacity)
         {
-            SeatsCount = seatsCount;
+            SeatsCount = 100;
         }
 
         public void LoadPassengers()
