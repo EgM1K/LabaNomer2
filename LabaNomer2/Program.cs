@@ -7,7 +7,7 @@ namespace LabaNomer2
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.InputEncoding = System.Text.Encoding.UTF8;
+
 
             List<Engine> engines = new List<Engine> { new Engine(120, 800, 25), new Engine(120, 800, 25) };
             Train train = new Train("someId", engines);

@@ -12,6 +12,7 @@ namespace LabaNomer2
         public bool HasShowers { get; set; }
         public int MaxPassengers { get; private set; }
         public int CurrentPassengers { get; set; }
+     
 
         public SleepingCarriage(string id, string type, double loadCapacity, int compartmentsCount, bool hasShowers)
             : base(id, type, loadCapacity)

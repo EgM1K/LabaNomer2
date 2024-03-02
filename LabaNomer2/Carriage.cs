@@ -13,6 +13,7 @@ namespace LabaNomer2
         public double Weight { get; set; }
         public double Length { get; set; }
         public double LoadCapacity { get; set; }
+       
 
         protected Carriage(string id, string type, double loadCapacity)
         {
