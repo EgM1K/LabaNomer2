@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,10 +37,8 @@ namespace LabaNomer2
             switch (caseNumber)
             {
                 case 1:
-                    Console.Write("Введіть кількість пасажирів: ");
-                    passengers = Convert.ToInt32(Console.ReadLine());
                     id = (Carriages.Count + 1).ToString();
-                    PassengerCarriage passengerCarriage = new PassengerCarriage(id, 25, passengers);
+                    PassengerCarriage passengerCarriage = new PassengerCarriage(id, 25, load);
                     passengerCarriage.LoadPassengers();
                     Carriages.Add(passengerCarriage);
                     break;
@@ -151,12 +150,12 @@ namespace LabaNomer2
             double totalLoad = 0;
             double totalWeight = 0;
             double totalLength = 0;
+            int totalPassengers = 0;
             foreach (var carriage in Carriages)
             {
                 Console.WriteLine($"ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
                 totalLength += carriage.Length;
                 totalWeight += carriage.Weight;
-                int totalPassengers = 0;
                 switch (carriage)
                 {
                     case PassengerCarriage passengerCarriage:
@@ -181,10 +180,9 @@ namespace LabaNomer2
                 }
             }
             Console.WriteLine($"Загальна довжина потягу: {totalLength} метрів");
-            Console.WriteLine($"Загальна вага вантажу: {TotalLoad} тон");
+            Console.WriteLine($"Загальна кількість пасажирів: {totalPassengers}");
+            Console.WriteLine($"Загальна вага потягу: {totalWeight} тон");
         }
-
-
 
 
         public JourneyInfo GetJourneyInfo(double distance)

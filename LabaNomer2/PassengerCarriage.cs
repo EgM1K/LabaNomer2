@@ -19,13 +19,17 @@ namespace LabaNomer2
 
         public void LoadPassengers()
         {
-            Console.WriteLine("Введіть кількість пасажирів:");
-            Passengers = Convert.ToInt32(Console.ReadLine());
-            if (Passengers > SeatsCount)
+            int passengers;
+            do
             {
-                Console.WriteLine("Кількість пасажирів не може перевищувати кількість місць.");
-                Passengers = SeatsCount;
-            }
+                Console.WriteLine("Введіть кількість пасажирів:");
+                passengers = Convert.ToInt32(Console.ReadLine());
+                if (passengers > SeatsCount)
+                {
+                    Console.WriteLine("Кількість пасажирів не може перевищувати кількість місць.");
+                }
+            } while (passengers > SeatsCount);
+            Passengers = passengers;
         }
     }
 }
