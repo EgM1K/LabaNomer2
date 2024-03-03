@@ -37,7 +37,7 @@ namespace LabaNomer2
         }
         private bool hasFreightCarriages = false;
 
-        public void AddCarriage(int caseNumber, int passengers = 0, double load = 0, int foodLoad = 0, int tablesCount = 0, bool hasKitchen = false, int compartmentsCount = 0, bool hasShowers = false)
+        public void AddCarriage(int caseNumber, int passengers = 0, double load = 0, int foodLoad = 0, int tablesCount = 0, bool hasKitchen = false, int compartmentsCount = 0, bool hasShowers = false, double loadCapacity = 0)
         {
             string id;
             switch (caseNumber)
@@ -104,20 +104,25 @@ namespace LabaNomer2
                         Console.WriteLine($"Вантаж {materialName} завантажено.");
                     }
                         break;
-                    
+
                 case 3:
-                    if (foodLoad > 500)
+                    if (loadCapacity > 500)
                     {
                         Console.WriteLine("Завантаження їжі не може перевищувати 500 кг.");
                         return;
                     }
                     id = (Carriages.Count + 1).ToString();
-                    DiningCarriage diningCarriage = new DiningCarriage(id, "Dining", 25, foodLoad, hasKitchen);
+                    DiningCarriage diningCarriage = new DiningCarriage(id, "Dining", loadCapacity, tablesCount, hasKitchen);
                     Carriages.Add(diningCarriage);
                     break;
                 case 4:
+                    if (!Carriages.Any(c => c is DiningCarriage))
+                    {
+                        Console.WriteLine("Купе не може бути без вагона-ресторана.");
+                        return;
+                    }
                     id = (Carriages.Count + 1).ToString();
-                    SleepingCarriage sleepingCarriage = new SleepingCarriage(id, "Sleeping", 25, compartmentsCount, hasShowers);
+                    SleepingCarriage sleepingCarriage = new SleepingCarriage(id, "Sleeping", loadCapacity, compartmentsCount, hasShowers);
                     Carriages.Add(sleepingCarriage);
                     break;
                 default:
@@ -180,6 +185,7 @@ namespace LabaNomer2
                 }
             }
             double currentDistance = 0;
+            double previousStop = 0;
             while (currentDistance < distance)
             {
                 double nextStop = random.Next(50, 150);
@@ -189,22 +195,26 @@ namespace LabaNomer2
                     Console.WriteLine("Потяг доїхав до кінцевої точки.");
                     break;
                 }
-                Console.WriteLine($"Потяг зупинився на відстані {currentDistance} км.");
-                foreach (var engine in Engines)
+                Console.WriteLine($"Потяг зупинився на відстані {currentDistance} км. Відстань від попередньої зупинки: {currentDistance - previousStop} км.");
+                previousStop = currentDistance;
+                for (int i = 0; i < Carriages.Count; i++)
                 {
-                    Console.WriteLine($"ID рушію: {engine.Id}, Max Speed: {engine.MaxSpeed}, Max Load: {engine.MaxLoad}");
-                }
-                foreach (var carriage in Carriages)
-                {
-                    Console.WriteLine($"ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
+                    var carriage = Carriages[i];
                     if (carriage is FreightCarriage freightCarriage)
                     {
+                        Console.WriteLine($"Вагон {i + 1}: ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}, Тип матеріалу: {freightCarriage.Material}");
                         Console.WriteLine("Виберіть дію: 1 - Розвантажити вагон, 2 - Завантажити вагон, 3 - Продовжити подорож");
                         int action = Convert.ToInt32(Console.ReadLine());
                         switch (action)
                         {
                             case 1:
                                 freightCarriage.StationUnloadCargo();
+                                Console.WriteLine("Виберіть дію: 1 - Завантажити вагон, 2 - Продовжити подорож");
+                                action = Convert.ToInt32(Console.ReadLine());
+                                if (action == 1)
+                                {
+                                    freightCarriage.StationLoadCargo();
+                                }
                                 break;
                             case 2:
                                 freightCarriage.StationLoadCargo();
@@ -218,12 +228,19 @@ namespace LabaNomer2
                     }
                     else if (carriage is PassengerCarriage passengerCarriage)
                     {
+                        Console.WriteLine($"Вагон {i + 1}: ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
                         Console.WriteLine("Виберіть дію: 1 - Висадити пасажирів, 2 - Засадити пасажирів, 3 - Продовжити подорож");
                         int action = Convert.ToInt32(Console.ReadLine());
                         switch (action)
                         {
                             case 1:
                                 passengerCarriage.StationUnloadPassengers();
+                                Console.WriteLine("Виберіть дію: 1 - Засадити пасажирів, 2 - Продовжити подорож");
+                                action = Convert.ToInt32(Console.ReadLine());
+                                if (action == 1)
+                                {
+                                    passengerCarriage.StationLoadPassengers();
+                                }
                                 break;
                             case 2:
                                 passengerCarriage.StationLoadPassengers();
@@ -235,9 +252,63 @@ namespace LabaNomer2
                                 break;
                         }
                     }
+                    else if (carriage is DiningCarriage diningCarriage)
+                    {
+                        Console.WriteLine($"Вагон {i + 1}: ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
+                        Console.WriteLine("Виберіть дію: 1 - Завантажити їжу, 2 - Продовжити подорож");
+                        int action = Convert.ToInt32(Console.ReadLine());
+                        switch (action)
+                        {
+                            case 1:
+                                diningCarriage.StationLoadFood();
+                                break;
+                            case 2:
+                                break;
+                            default:
+                                Console.WriteLine("Невідома дія.");
+                                break;
+                        }
+                    }
+                    else if (carriage is SleepingCarriage sleepingCarriage)
+                    {
+                        Console.WriteLine($"Вагон {i + 1}: ID вагону: {carriage.Id}, Тип: {carriage.Type}, Вага: {carriage.Weight}, Довжина: {carriage.Length}");
+                        Console.WriteLine("Виберіть дію: 1 - Висадити пасажирів, 2 - Засадити пасажирів, 3 - Продовжити подорож");
+                        int action = Convert.ToInt32(Console.ReadLine());
+                        switch (action)
+                        {
+                            case 1:
+                                sleepingCarriage.StationUnloadPassengers();
+                                Console.WriteLine("Виберіть дію: 1 - Засадити пасажирів, 2 - Продовжити подорож");
+                                action = Convert.ToInt32(Console.ReadLine());
+                                if (action == 1)
+                                {
+                                    sleepingCarriage.StationLoadPassengers();
+                                }
+                                break;
+                            case 2:
+                                sleepingCarriage.StationLoadPassengers();
+                                break;
+                            case 3:
+                                break;
+                            default:
+                                Console.WriteLine("Невідома дія.");
+                                break;
+                        }
+                    }
+                }
+                Console.WriteLine("Виберіть дію: 1 - Додати вагон, 2 - Продовжити подорож");
+                int stationAction = Convert.ToInt32(Console.ReadLine());
+                if (stationAction == 1)
+                {
+                    Console.WriteLine("Виберіть тип вагону: 1 - Пасажирський, 2 - Вантажний, 3 - Ресторан, 4 - Купе");
+                    int caseNumber = Convert.ToInt32(Console.ReadLine());
+                    AddCarriage(caseNumber);
                 }
             }
+            Console.WriteLine($"Загальний шлях: {currentDistance} км.");
         }
+
+
 
         public void PrintTrainInfo()
         {
@@ -275,10 +346,18 @@ namespace LabaNomer2
                     case DiningCarriage diningCarriage:
                         cargoType = "Їжа";
                         totalLoad += diningCarriage.LoadFood(diningCarriage.DiningSeats);
+                        Console.WriteLine($"Кількість столів: {diningCarriage.TablesCount}");
+                        Console.WriteLine($"Наявність кухні: {diningCarriage.HasKitchen}");
+                        Console.WriteLine($"Кількість персоналу: {diningCarriage.StaffCount}");
+                        Console.WriteLine($"Кількість місць: {diningCarriage.DiningSeats}");
                         break;
                     case SleepingCarriage sleepingCarriage:
                         cargoType = "Люди";
                         totalPassengers += sleepingCarriage.CurrentPassengers;
+                        Console.WriteLine($"Кількість купе: {sleepingCarriage.CompartmentsCount}");
+                        Console.WriteLine($"Наявність душу: {sleepingCarriage.HasShowers}");
+                        Console.WriteLine($"Максимальна кількість пасажирів: {sleepingCarriage.MaxPassengers}");
+                        Console.WriteLine($"Поточна кількість пасажирів: {sleepingCarriage.CurrentPassengers}");
                         break;
                     default:
                         Console.WriteLine("Невідомий тип вагону.");
@@ -292,6 +371,7 @@ namespace LabaNomer2
             Console.WriteLine($"Загальна кількість пасажирів: {totalPassengers}");
             Console.WriteLine($"Загальна вага потягу: {totalWeight} тон");
         }
+
 
         public JourneyInfo GetJourneyInfo(double distance)
         {

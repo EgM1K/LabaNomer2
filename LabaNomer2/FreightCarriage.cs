@@ -15,7 +15,7 @@ namespace LabaNomer2
         Brittle = 5, // Крихкий матеріал
         Oil = 6, // Горючий матеріал
         Gas = 7, // Горючий матеріал
-        Other = 8
+        Other = 8 // Будь-який інший матеріал
     }
 
     public class FreightCarriage : Carriage

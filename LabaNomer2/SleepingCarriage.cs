@@ -12,7 +12,7 @@ namespace LabaNomer2
         public bool HasShowers { get; set; }
         public int MaxPassengers { get; private set; }
         public int CurrentPassengers { get; set; }
-     
+
 
         public SleepingCarriage(string id, string type, double loadCapacity, int compartmentsCount, bool hasShowers)
             : base(id, type, loadCapacity)
@@ -31,6 +31,35 @@ namespace LabaNomer2
             }
             CurrentPassengers += passengers;
             return true;
+        }
+        public void StationLoadPassengers()
+        {
+            Console.Write("Введіть кількість пасажирів для завантаження: ");
+            int passengers = int.Parse(Console.ReadLine());
+
+            if (AddPassengers(passengers))
+            {
+                Console.WriteLine($"Завантажено {passengers} пасажирів.");
+            }
+            else
+            {
+                Console.WriteLine("Кількість пасажирів не може перевищувати максимальну кількість місць.");
+            }
+        }
+        public void StationUnloadPassengers()
+        {
+            Console.Write("Введіть кількість пасажирів для висадки: ");
+            int passengers = int.Parse(Console.ReadLine());
+
+            if (passengers <= CurrentPassengers)
+            {
+                CurrentPassengers -= passengers;
+                Console.WriteLine($"Висаджено {passengers} пасажирів.");
+            }
+            else
+            {
+                Console.WriteLine("Ви не можете висадити більше пасажирів, ніж є в вагоні.");
+            }
         }
     }
 }

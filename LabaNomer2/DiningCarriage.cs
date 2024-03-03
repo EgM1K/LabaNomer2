@@ -28,5 +28,13 @@ namespace LabaNomer2
             double foodPerPassenger = 0.5;
             return passengers * foodPerPassenger;
         }
+        public void StationLoadFood()
+        {
+            Console.Write("Введіть кількість пасажирів для завантаження їжі: ");
+            int passengers = int.Parse(Console.ReadLine());
+
+            double foodWeight = LoadFood(passengers);
+            Console.WriteLine($"Завантажено їжу вагою {foodWeight}.");
+        }
     }
 }
