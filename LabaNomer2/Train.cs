@@ -37,72 +37,72 @@ namespace LabaNomer2
         }
         private bool hasFreightCarriages = false;
 
-        public void AddCarriage(int caseNumber, int passengers = 0, double load = 0, int foodLoad = 0, int tablesCount = 0, bool hasKitchen = false, int compartmentsCount = 0, bool hasShowers = false, double loadCapacity = 0)
+        public void AddCarriage(int type, int passengers = 0, double load = 0, int foodLoad = 0, int tablesCount = 0, bool hasKitchen = false, int compartmentsCount = 0, bool hasShowers = false, double loadCapacity = 0)
         {
             string id;
-            switch (caseNumber)
-            {
-                case 1:
-                    id = (Carriages.Count + 1).ToString();
-                    PassengerCarriage passengerCarriage = new PassengerCarriage(id, 25, load);
-                    passengerCarriage.LoadPassengers();
-                    Carriages.Add(passengerCarriage);
-                    break;
-                case 2:
-                    Console.WriteLine("Виберіть тип матеріалу:");
-                    foreach (var material in Enum.GetValues(typeof(MaterialType)))
-                    {
-                        Console.WriteLine($"{(int)material}. {material}");
-                    }
-                    MaterialType chosenMaterial = (MaterialType)Enum.Parse(typeof(MaterialType), Console.ReadLine());
-
-                    string materialName = chosenMaterial.ToString();
-                    if (chosenMaterial == MaterialType.Other)
-                    {
-                        Console.Write("Введіть назву матеріалу: ");
-                        materialName = Console.ReadLine();
-                    }
-
-                    Console.Write("Введіть вагу вантажу: ");
-                    double cargoWeight = Convert.ToDouble(Console.ReadLine());
-
-                    double maxLoad = LoadCapacity;
-                    switch (chosenMaterial)
-                    {
-                        case MaterialType.Chemical:
-                            maxLoad = 120;
-                            break;
-                        case MaterialType.Oil:
-                        case MaterialType.Gas:
-                            maxLoad = 80;
-                            break;
-                        case MaterialType.Brittle:
-                            maxLoad = 50;
-                            break;
-                        case MaterialType.Wood:
-                        case MaterialType.Metal:
-                        case MaterialType.Coal:
-                        case MaterialType.Other:
-                            maxLoad = 100;
-                            break;
-                    }
-
-                    if (cargoWeight > maxLoad)
-                    {
-                        Console.WriteLine($"Вантаж не може перевищувати максимальну вантажопідйомність вагона для {materialName}.");
-                    }
-                    else
-                    {
+                switch (type)
+                {
+                    case 1:
                         id = (Carriages.Count + 1).ToString();
-                        FreightCarriage freightCarriage = new FreightCarriage(id, maxLoad, chosenMaterial);
+                        PassengerCarriage passengerCarriage = new PassengerCarriage(id, 25, load);
+                        passengerCarriage.LoadPassengers();
+                        Carriages.Add(passengerCarriage);
+                        break;
+                    case 2:
+                        Console.Write("Виберіть тип матеріалу:");
+                        foreach (var material in Enum.GetValues(typeof(MaterialType)))
+                        {
+                            Console.WriteLine($"{(int)material}. {material}");
+                        }
+                        MaterialType chosenMaterial = (MaterialType)Enum.Parse(typeof(MaterialType), Console.ReadLine());
+
+                        string materialName = chosenMaterial.ToString();
                         if (chosenMaterial == MaterialType.Other)
                         {
-                            freightCarriage.OtherMaterial = materialName;
+                            Console.Write("Введіть назву матеріалу: ");
+                            materialName = Console.ReadLine();
                         }
-                        freightCarriage.Load = cargoWeight;
-                        Carriages.Add(freightCarriage);
-                        Console.WriteLine($"Вантаж {materialName} завантажено.");
-                    }
+
+                        Console.Write("Введіть вагу вантажу: ");
+                        double cargoWeight = Convert.ToDouble(Console.ReadLine());
+
+                        double maxLoad = LoadCapacity;
+                        switch (chosenMaterial)
+                        {
+                            case MaterialType.Chemical:
+                                maxLoad = 120;
+                                break;
+                            case MaterialType.Oil:
+                            case MaterialType.Gas:
+                                maxLoad = 80;
+                                break;
+                            case MaterialType.Brittle:
+                                maxLoad = 50;
+                                break;
+                            case MaterialType.Wood:
+                            case MaterialType.Metal:
+                            case MaterialType.Coal:
+                            case MaterialType.Other:
+                                maxLoad = 100;
+                                break;
+                        }
+
+                        if (cargoWeight > maxLoad)
+                        {
+                            Console.WriteLine($"Вантаж не може перевищувати максимальну вантажопідйомність вагона для {materialName}.");
+                        }
+                        else
+                        {
+                            id = (Carriages.Count + 1).ToString();
+                            FreightCarriage freightCarriage = new FreightCarriage(id, maxLoad, chosenMaterial);
+                            if (chosenMaterial == MaterialType.Other)
+                            {
+                                freightCarriage.OtherMaterial = materialName;
+                            }
+                            freightCarriage.Load = cargoWeight;
+                            Carriages.Add(freightCarriage);
+                            Console.WriteLine($"Вантаж {materialName} завантажено.");
+                        }
                         break;
 
                 case 3:
@@ -113,6 +113,9 @@ namespace LabaNomer2
                     }
                     id = (Carriages.Count + 1).ToString();
                     DiningCarriage diningCarriage = new DiningCarriage(id, "Dining", loadCapacity, tablesCount, hasKitchen);
+                    Console.Write("Введіть кількість пасажирів для завантаження їжі: ");
+                    int foodPassengers = int.Parse(Console.ReadLine());
+                    diningCarriage.LoadFood(foodPassengers); // Завантаження їжі
                     Carriages.Add(diningCarriage);
                     break;
                 case 4:
@@ -123,11 +126,52 @@ namespace LabaNomer2
                     }
                     id = (Carriages.Count + 1).ToString();
                     SleepingCarriage sleepingCarriage = new SleepingCarriage(id, "Sleeping", loadCapacity, compartmentsCount, hasShowers);
+                    Console.Write("Введіть кількість пасажирів для завантаження: ");
+                    int sleepPassengers = int.Parse(Console.ReadLine());
+                    sleepingCarriage.AddPassengers(sleepPassengers); // Завантаження пасажирів
                     Carriages.Add(sleepingCarriage);
                     break;
                 default:
                     Console.WriteLine("Невідомий тип вагону.");
                     break;
+            }
+            
+        }
+        public void RemoveCarriage()
+        {
+            Console.WriteLine("Ви можете видалити вагон. 1 - так, 2 - ні");
+            int choice = int.Parse(Console.ReadLine());
+            if (choice == 1)
+            {
+                Console.WriteLine("Введіть ID вагону, який потрібно видалити:");
+                string idToRemove = Console.ReadLine();
+                Carriage carriageToRemove = Carriages.FirstOrDefault(c => c.Id == idToRemove);
+                if (carriageToRemove != null)
+                {
+                    Carriages.Remove(carriageToRemove);
+                    Console.WriteLine($"Вагон з ID {idToRemove} було видалено.");
+                }
+                else
+                {
+                    Console.WriteLine("Вагону з таким ID не існує.");
+                }
+            }
+            else if (choice == 2)
+            {
+                Console.WriteLine("Видалення вагону було скасовано.");
+            }
+            else
+            {
+                Console.WriteLine("Невідомий вибір. Спробуйте ще раз.");
+            }
+        }
+
+        public void ShowCarriages()
+        {
+            Console.WriteLine("Список всіх вагонів:");
+            foreach (Carriage carriage in Carriages)
+            {
+                Console.WriteLine($"ID: {carriage.Id}, Тип: {carriage.Type}");
             }
         }
 
@@ -148,15 +192,34 @@ namespace LabaNomer2
                 Engines.Add(new Engine(120, 800, 25));
             }
 
-            Console.Write("Виберіть тип вагонів (1 - пасажирський, 2 - вантажний, 3 - вагон-ресторан, 4 - спальний вагон): ");
-            int type = Convert.ToInt32(Console.ReadLine());
-
-            Console.Write("Введіть кількість вагонів: ");
-            int carriageCount = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < carriageCount; i++)
+            bool continueAdding = true;
+            while (continueAdding)
             {
-                AddCarriage(type);
+                Console.Write("Виберіть тип вагонів (1 - пасажирський, 2 - вантажний, 3 - вагон-ресторан, 4 - спальний вагон): ");
+                int type = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Введіть кількість вагонів цього типу: ");
+                int carriageCount = Convert.ToInt32(Console.ReadLine());
+
+                for (int i = 0; i < carriageCount; i++)
+                {
+                    AddCarriage(type);
+                }
+
+                Console.WriteLine("Бажаєте додати інший тип вагону? (1 - так, 2 - ні)");
+                string userResponse = Console.ReadLine();
+                switch (userResponse)
+                {
+                    case "1":
+                        continueAdding = true;
+                        break;
+                    case "2":
+                        continueAdding = false;
+                        break;
+                    default:
+                        Console.WriteLine("Невідома відповідь. Будь ласка, введіть 1 для 'так' або 2 для 'ні'.");
+                        break;
+                }
             }
         }
 
@@ -349,12 +412,10 @@ namespace LabaNomer2
                         Console.WriteLine($"Кількість столів: {diningCarriage.TablesCount}");
                         Console.WriteLine($"Наявність кухні: {diningCarriage.HasKitchen}");
                         Console.WriteLine($"Кількість персоналу: {diningCarriage.StaffCount}");
-                        Console.WriteLine($"Кількість місць: {diningCarriage.DiningSeats}");
                         break;
                     case SleepingCarriage sleepingCarriage:
                         cargoType = "Люди";
                         totalPassengers += sleepingCarriage.CurrentPassengers;
-                        Console.WriteLine($"Кількість купе: {sleepingCarriage.CompartmentsCount}");
                         Console.WriteLine($"Наявність душу: {sleepingCarriage.HasShowers}");
                         Console.WriteLine($"Максимальна кількість пасажирів: {sleepingCarriage.MaxPassengers}");
                         Console.WriteLine($"Поточна кількість пасажирів: {sleepingCarriage.CurrentPassengers}");

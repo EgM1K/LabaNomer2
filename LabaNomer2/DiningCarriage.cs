@@ -17,8 +17,8 @@ namespace LabaNomer2
         public DiningCarriage(string id, string type, double loadCapacity, int tablesCount, bool hasKitchen)
             : base(id, type, loadCapacity)
         {
-            TablesCount = tablesCount;
-            HasKitchen = hasKitchen;
+            TablesCount = tablesCount = 40;
+            HasKitchen = hasKitchen = true;
             StaffCount = 5;
             DiningSeats = 40;
         }

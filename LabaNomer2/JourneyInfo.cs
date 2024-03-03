@@ -11,14 +11,14 @@ namespace LabaNomer2
         public double Distance { get; set; }
         public double Time { get; set; }
         public double Speed { get; set; }
-        public double Load { get; set; }
+        public double TotalLoad { get; set; }
 
-        public JourneyInfo(double distance, double time, double speed, double load)
+        public JourneyInfo(double distance, double time, double speed, double totalLoad)
         {
             Distance = distance;
             Time = time;
             Speed = speed;
-            Load = load;
+            TotalLoad = totalLoad;
         }
 
         public void PrintInfo()
@@ -26,7 +26,6 @@ namespace LabaNomer2
             Console.WriteLine($"Відстань подорожі: {Distance} км");
             Console.WriteLine($"Час подорожі: {Time} годин");
             Console.WriteLine($"Швидкість потягу: {Speed} км/год");
-            Console.WriteLine($"Вага вантажу: {Load} тон");
         }
     }
 }

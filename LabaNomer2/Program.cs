@@ -10,7 +10,7 @@ namespace LabaNomer2
 
 
             List<Engine> engines = new List<Engine> { new Engine(120, 800, 25), new Engine(120, 800, 25) };
-            Train train = new Train("someId", engines);
+            Train train = new Train("Id", engines);
             train.InitializeTrain();
             Console.Write("Введіть відстань подорожі: ");
             double distance = Convert.ToDouble(Console.ReadLine());
