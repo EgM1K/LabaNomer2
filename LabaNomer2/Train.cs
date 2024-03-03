@@ -156,9 +156,13 @@ namespace LabaNomer2
                         Console.Write("Введіть номер вагону, який ви хочете видалити: ");
                         string carriageInput = Console.ReadLine();
                         int carriageNumber;
-                        if (Int32.TryParse(carriageInput, out carriageNumber) && carriageNumber >= 0 && carriageNumber < carriages.Count)
+                        if (Int32.TryParse(carriageInput, out carriageNumber) && carriageNumber > 0 && carriageNumber <= Carriages.Count)
                         {
-                            carriages.RemoveAt(carriageNumber);
+                            Carriages.RemoveAt(carriageNumber - 1);
+                            for (int i = carriageNumber - 1; i < Carriages.Count; i++)
+                            {
+                                Carriages[i].Id = (i + 1).ToString();
+                            }
                             Console.WriteLine("Вагон успішно видалено.");
                         }
                         else
@@ -369,13 +373,23 @@ namespace LabaNomer2
                         }
                     }
                 }
-                Console.WriteLine("Виберіть дію: 1 - Додати вагон, 2 - Продовжити подорож");
+                Console.WriteLine("Виберіть дію: 1 - Додати вагон, 2 - Видалити вагон, 3 - Продовжити подорож");
                 int stationAction = Convert.ToInt32(Console.ReadLine());
-                if (stationAction == 1)
+                switch (stationAction)
                 {
+                    case 1:
                     Console.WriteLine("Виберіть тип вагону: 1 - Пасажирський, 2 - Вантажний, 3 - Ресторан, 4 - Купе");
                     int caseNumber = Convert.ToInt32(Console.ReadLine());
                     AddCarriage(caseNumber);
+                        break;
+                    case 2:
+                        RemoveCarriage();
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        Console.WriteLine("Невідома дія.");
+                        break;
                 }
             }
             Console.WriteLine($"Загальний шлях: {currentDistance} км.");
