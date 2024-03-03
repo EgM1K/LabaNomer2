@@ -115,7 +115,7 @@ namespace LabaNomer2
                     DiningCarriage diningCarriage = new DiningCarriage(id, "Dining", loadCapacity, tablesCount, hasKitchen);
                     Console.Write("Введіть кількість пасажирів для завантаження їжі: ");
                     int foodPassengers = int.Parse(Console.ReadLine());
-                    diningCarriage.LoadFood(foodPassengers); // Завантаження їжі
+                    diningCarriage.LoadFood(foodPassengers);
                     Carriages.Add(diningCarriage);
                     break;
                 case 4:
@@ -128,7 +128,7 @@ namespace LabaNomer2
                     SleepingCarriage sleepingCarriage = new SleepingCarriage(id, "Sleeping", loadCapacity, compartmentsCount, hasShowers);
                     Console.Write("Введіть кількість пасажирів для завантаження: ");
                     int sleepPassengers = int.Parse(Console.ReadLine());
-                    sleepingCarriage.AddPassengers(sleepPassengers); // Завантаження пасажирів
+                    sleepingCarriage.AddPassengers(sleepPassengers);
                     Carriages.Add(sleepingCarriage);
                     break;
                 default:
@@ -137,32 +137,41 @@ namespace LabaNomer2
             }
             
         }
+        private List<Carriage> carriages = new List<Carriage>();
+
         public void RemoveCarriage()
         {
-            Console.WriteLine("Ви можете видалити вагон. 1 - так, 2 - ні");
-            int choice = int.Parse(Console.ReadLine());
-            if (choice == 1)
+            string userInput = "";
+            while (true)
             {
-                Console.WriteLine("Введіть ID вагону, який потрібно видалити:");
-                string idToRemove = Console.ReadLine();
-                Carriage carriageToRemove = Carriages.FirstOrDefault(c => c.Id == idToRemove);
-                if (carriageToRemove != null)
+                Console.Clear();
+                Console.Write("Ви хочете видалити вагон? (1 - так, 2 - ні): ");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
                 {
-                    Carriages.Remove(carriageToRemove);
-                    Console.WriteLine($"Вагон з ID {idToRemove} було видалено.");
+                    case "1":
+                        ShowCarriages();
+
+                        Console.Write("Введіть номер вагону, який ви хочете видалити: ");
+                        string carriageInput = Console.ReadLine();
+                        int carriageNumber;
+                        if (Int32.TryParse(carriageInput, out carriageNumber) && carriageNumber >= 0 && carriageNumber < carriages.Count)
+                        {
+                            carriages.RemoveAt(carriageNumber);
+                            Console.WriteLine("Вагон успішно видалено.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Вагону з таким номером не існує.");
+                        }
+                        break;
+                    case "2":
+                        return;
+                    default:
+                        Console.WriteLine("Невідома команда. Будь ласка, введіть 1, щоб видалити вагон, або 2, щоб завершити.");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Вагону з таким ID не існує.");
-                }
-            }
-            else if (choice == 2)
-            {
-                Console.WriteLine("Видалення вагону було скасовано.");
-            }
-            else
-            {
-                Console.WriteLine("Невідомий вибір. Спробуйте ще раз.");
             }
         }
 
@@ -221,6 +230,7 @@ namespace LabaNomer2
                         break;
                 }
             }
+            RemoveCarriage();
         }
 
         public void SimulateJourneyWithStops(double distance)
