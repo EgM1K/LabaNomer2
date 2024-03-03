@@ -18,7 +18,7 @@ namespace LabaNomer2
             Console.Clear();
             Console.WriteLine("Моделювання подорожі...");
 
-            train.SimulateJourney(distance);
+            train.SimulateJourneyWithStops(distance);
             train.PrintTrainInfo();
 
             JourneyInfo journeyInfo = train.GetJourneyInfo(distance);

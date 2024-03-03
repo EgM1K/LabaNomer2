@@ -13,7 +13,7 @@ namespace LabaNomer2
         List<Carriage> Carriages { get; set; }
 
         void AddCarriage(Carriage carriage);
-        void SimulateJourney(double distance);
+        void SimulateJourneyWithStops(double distance);
         void PrintTrainInfo();
        
     }

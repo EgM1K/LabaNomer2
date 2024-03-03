@@ -10,7 +10,7 @@ namespace LabaNomer2
     {
         public int SeatsCount { get; set; }
         public int Passengers { get; set; }
-        
+
 
         public PassengerCarriage(string id, int seatsCount, double loadCapacity)
             : base(id, "Passenger", loadCapacity)
@@ -31,6 +31,37 @@ namespace LabaNomer2
                 }
             } while (passengers > SeatsCount);
             Passengers = passengers;
+        }
+        public void StationLoadPassengers()
+        {
+            Console.Write("Введіть кількість пасажирів для завантаження: ");
+            int passengers = int.Parse(Console.ReadLine());
+
+            if (passengers <= SeatsCount)
+            {
+                Passengers = passengers;
+                Console.WriteLine($"Завантажено {Passengers} пасажирів.");
+            }
+            else
+            {
+                Console.WriteLine("Кількість пасажирів не може перевищувати кількість місць.");
+            }
+        }
+
+        public void StationUnloadPassengers()
+        {
+            Console.Write("Введіть кількість пасажирів для висадки: ");
+            int passengers = int.Parse(Console.ReadLine());
+
+            if (passengers <= Passengers)
+            {
+                Passengers -= passengers;
+                Console.WriteLine($"Висаджено {passengers} пасажирів.");
+            }
+            else
+            {
+                Console.WriteLine("Ви не можете висадити більше пасажирів, ніж є в вагоні.");
+            }
         }
     }
 }

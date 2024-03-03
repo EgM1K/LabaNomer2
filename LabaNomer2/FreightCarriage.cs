@@ -65,6 +65,12 @@ namespace LabaNomer2
                 case MaterialType.Brittle:
                     maxLoad = 50;
                     break;
+                case MaterialType.Wood:
+                case MaterialType.Metal:
+                case MaterialType.Coal:
+                case MaterialType.Other:
+                    maxLoad = 100;
+                    break;
             }
 
             if (cargoWeight + Weight > maxLoad)
@@ -78,5 +84,62 @@ namespace LabaNomer2
                 Console.WriteLine($"Вантаж {Material} завантажено.");
             }
         }
+            public void StationLoadCargo()
+            {
+                Console.Write("Введіть тип вантажу: ");
+                MaterialType material = (MaterialType)Enum.Parse(typeof(MaterialType), Console.ReadLine());
+
+                Console.Write("Введіть вагу вантажу: ");
+                double cargoWeight = double.Parse(Console.ReadLine());
+
+                if (Load == 0)
+                {
+                    double maxLoad = LoadCapacity;
+                    switch (material)
+                    {
+                        case MaterialType.Chemical:
+                            maxLoad = 120;
+                            break;
+                        case MaterialType.Oil:
+                        case MaterialType.Gas:
+                            maxLoad = 80;
+                            break;
+                        case MaterialType.Brittle:
+                            maxLoad = 50;
+                            break;
+                        case MaterialType.Wood:
+                        case MaterialType.Metal:
+                        case MaterialType.Coal:
+                        case MaterialType.Other:
+                            maxLoad = 100;
+                            break;
+                        }
+
+                    if (cargoWeight <= maxLoad)
+                    {
+                        Load = cargoWeight;
+                        Material = material;
+                        Console.WriteLine($"Вантаж {Material} завантажено.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Вантаж не може перевищувати максимальну вантажопідйомність вагона для {material}.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Вагон повинен бути порожнім перед завантаженням нового вантажу.");
+                }
+            }
+        
+
+            public void StationUnloadCargo()
+            {
+                Console.WriteLine($"Розвантажено вантаж вагою {Load}.");
+                Load = 0;
+                Material = MaterialType.Other;
+                OtherMaterial = "";
+            }
+        }
     }
-}
+
